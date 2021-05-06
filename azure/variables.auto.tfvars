@@ -17,12 +17,12 @@ vnets = {
 
 # VNET subnets
 hub-subnets = {
-  security-DMZ = {
-    name   = "security-DMZ"
+  security-dmz = {
+    name   = "security-dmz"
     subnet = "10.160.0.0/27"
   }
-  WAF-DMZ = {
-    name   = "WAF-DMZ"
+  waf-dmz = {
+    name   = "waf-dmz"
     subnet = "10.160.0.32/27"
   }
   shared-services = {

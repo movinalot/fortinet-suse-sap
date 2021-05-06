@@ -4,7 +4,10 @@ variable "resource_group_name" {
 variable "resource_group_location" {
   type = string
 }
-variable "hub_waf_subnet_id" {
+variable "hub_waf_dmz_subnet_id" {
+  type = string
+}
+variable "hub_security_dmz_subnet_id" {
   type = string
 }
 variable "hub_shared_services_subnet_id" {
@@ -28,10 +31,10 @@ variable "size" {
   default = "Standard_F4"
 }
 
-// License Type to create FortiGate-VM
-// Provide the license type for FortiGate-VM Instances, either byol or payg.
+// FortiGate License Type
+// Either byol or payg.
 variable "license_type" {
-  default = "payg"
+  default = "byol"
 }
 
 variable "publisher" {
@@ -69,22 +72,13 @@ variable "adminpassword" {
   default = "123Password#@!"
 }
 
-variable "location" {
+variable "bootstrap-fgt" {
   type    = string
-  default = "eastus"
-}
-
-
-
-variable "bootstrap-fgtvm" {
-  // Change to your own path
-  type    = string
-  default = "../fortinet/fortigate/fgtvm.conf"
+  default = "../fortinet/fortigate-single/fgt.conf"
 }
 
 // license file for the fgt
 variable "license" {
-  // Change to your own byol license file, license.lic
   type    = string
-  default = "license.txt"
+  default = "../fortinet/fortigate-single/FGVM4VTM21000346.lic"
 }

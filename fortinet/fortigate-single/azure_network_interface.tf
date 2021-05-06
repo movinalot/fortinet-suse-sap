@@ -7,10 +7,10 @@ resource "azurerm_network_interface" "fgtport1" {
 
   ip_configuration {
     name                          = "ipconfig1"
-    subnet_id                     = var.hub_waf_subnet_id
+    subnet_id                     = var.hub_security_dmz_subnet_id
     private_ip_address_allocation = "Dynamic"
     primary                       = true
-    public_ip_address_id          = azurerm_public_ip.FGTPublicIp.id
+    public_ip_address_id          = azurerm_public_ip.fgtpublicip.id
   }
 
   tags = {

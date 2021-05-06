@@ -1,5 +1,5 @@
-resource "azurerm_virtual_machine" "fgtvm" {
-  name                         = "fgtvm"
+resource "azurerm_virtual_machine" "fortigate" {
+  name                         = "FGT"
   resource_group_name          = var.resource_group_name
   location                     = var.resource_group_location
   network_interface_ids        = [azurerm_network_interface.fgtport1.id, azurerm_network_interface.fgtport2.id]
@@ -27,7 +27,7 @@ resource "azurerm_virtual_machine" "fgtvm" {
 
   # Log data disks
   storage_data_disk {
-    name              = "fgtvmdatadisk"
+    name              = "fgtdatadisk"
     managed_disk_type = "Standard_LRS"
     create_option     = "Empty"
     lun               = 0
@@ -35,10 +35,10 @@ resource "azurerm_virtual_machine" "fgtvm" {
   }
 
   os_profile {
-    computer_name  = "fgtvm"
+    computer_name  = "fgt"
     admin_username = var.adminusername
     admin_password = var.adminpassword
-    custom_data    = data.template_file.fgtvm.rendered
+    custom_data    = data.template_file.fgt.rendered
   }
 
   os_profile_linux_config {
@@ -55,8 +55,8 @@ resource "azurerm_virtual_machine" "fgtvm" {
   }
 }
 
-data "template_file" "fgtvm" {
-  template = file(var.bootstrap-fgtvm)
+data "template_file" "fgt" {
+  template = file(var.bootstrap-fgt)
   vars = {
     type         = var.license_type
     license_file = var.license

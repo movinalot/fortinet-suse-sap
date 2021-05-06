@@ -4,7 +4,7 @@ output "ResourceGroup" {
 }
 
 output "FGTPublicIP" {
-  value = azurerm_public_ip.FGTPublicIp.ip_address
+  value = "https://${azurerm_public_ip.fgtpublicip.ip_address}"
 
 }
 
