@@ -3,49 +3,29 @@
 region     = "eastus"
 group_name = "jmcdonough-sap"
 
-# VNETs
+# VNET
 vnets = {
-  hub-vnet = {
-    name = "hub-vnet"
-    cidr = "10.160.0.0/24"
-  }
-  spoke-vnet = {
-    name = "spoke-vnet"
-    cidr = "10.160.1.0/24"
-  }
+  "hub-vnet" = { name = "hub-vnet", cidr = "10.160.0.0/24" }
 }
 
 # VNET subnets
-hub-subnets = {
-  security-dmz = {
-    name   = "security-dmz"
-    subnet = "10.160.0.0/27"
-  }
-  waf-dmz = {
-    name   = "waf-dmz"
-    subnet = "10.160.0.32/27"
-  }
-  shared-services = {
-    name   = "shared-services"
-    subnet = "10.160.0.64/29"
-  }
-  monitoring = {
-    name   = "monitoring"
-    subnet = "10.160.0.72/29"
-  }
+subnets = {
+  "security-dmz"    = { name = "security-dmz", vnet-name = "hub-vnet", subnet = "10.160.0.0/27" }
+  "waf"             = { name = "waf", vnet-name = "hub-vnet", subnet = "10.160.0.32/27" }
+  "shared-services" = { name = "shared-services", vnet-name = "hub-vnet", subnet = "10.160.0.64/29" }
+  "hasync"          = { name = "hasync", vnet-name = "hub-vnet", subnet = "10.160.0.72/29" }
+  "mgmt"            = { name = "mgmt", vnet-name = "hub-vnet", subnet = "10.160.0.80/29" }
 }
 
-spoke-subnets = {
-  netweaver-app-tier = {
-    name   = "netweaver-app-tier"
-    subnet = "10.160.1.0/26"
-  }
-  database = {
-    name   = "database"
-    subnet = "10.160.1.64/27"
-  }
-  storage = {
-    name   = "storage"
-    subnet = "10.160.1.96/27"
-  }
+nsgs = {
+  "PublicNetworkSecurityGroup"  = { name = "PublicNetworkSecurityGroup" },
+  "PrivateNetworkSecurityGroup" = { name = "PrivateNetworkSecurityGroup" }
 }
+
+nsgrules = {
+  "PublicNetworkSecurityGroup"  = { nsgname = "PublicNetworkSecurityGroup", rulename = "TCP", priority = "1001", direction = "Inbound", access = "Allow", protocol = "Tcp" },
+  "PublicNetworkSecurityGroup"  = { nsgname = "PublicNetworkSecurityGroup", rulename = "egress", priority = "100", direction = "Outbound", access = "Allow", protocol = "*" },
+  "PrivateNetworkSecurityGroup" = { nsgname = "PrivateNetworkSecurityGroup", rulename = "All", priority = "1001", direction = "Inbound", access = "Allow", protocol = "*" },
+  "PrivateNetworkSecurityGroup" = { nsgname = "PrivateNetworkSecurityGroup", rulename = "egress-provate", priority = "100", direction = "Outbound", access = "Allow", protocol = "*" }
+}
+

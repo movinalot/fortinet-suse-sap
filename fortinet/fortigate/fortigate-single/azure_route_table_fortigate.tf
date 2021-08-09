@@ -1,5 +1,4 @@
 
-
 resource "azurerm_route" "default" {
   name                   = "default"
   resource_group_name    = var.resource_group_name

@@ -14,16 +14,18 @@ variable "vnets" {
   }))
 }
 
-variable "hub-subnets" {
+variable "subnets" {
   type = map(object({
-    name   = string
-    subnet = string
+    name      = string
+    vnet-name = string
+    subnet    = string
   }))
 }
 
-variable "spoke-subnets" {
-  type = map(object({
-    name   = string
-    subnet = string
-  }))
+variable "nsgs" {
+  description = "Network Security Groups"
+}
+
+variable "nsgrules" {
+  description = "Network Security Group Rules"
 }

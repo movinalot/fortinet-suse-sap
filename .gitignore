@@ -5,6 +5,9 @@
 *.tfstate
 *.tfstate.*
 
+# backend
+backend.tf
+
 # Crash log files
 crash.log
 
@@ -30,3 +33,5 @@ override.tf.json
 
 *.lic
 *.lock.hcl
+
+.vscode

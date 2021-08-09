@@ -1,71 +1,23 @@
-resource "azurerm_network_security_group" "publicnetworknsg" {
-  name                = "PublicNetworkSecurityGroup"
+resource "azurerm_network_security_group" "nsg" {
+  for_each = var.nsgs
+
+  name                = each.value.name
   resource_group_name = azurerm_resource_group.resource_group.name
   location            = azurerm_resource_group.resource_group.location
-
-  security_rule {
-    name                       = "TCP"
-    priority                   = 1001
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "*"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
-
-  tags = {
-    environment = azurerm_resource_group.resource_group.name
-  }
 }
+resource "azurerm_network_security_rule" "nsg_rule" {
+  for_each = var.nsgrules
 
-resource "azurerm_network_security_group" "privatenetworknsg" {
-  name                = "PrivateNetworkSecurityGroup"
-  resource_group_name = azurerm_resource_group.resource_group.name
-  location            = azurerm_resource_group.resource_group.location
-
-  security_rule {
-    name                       = "All"
-    priority                   = 1001
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "*"
-    source_port_range          = "*"
-    destination_port_range     = "*"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
-
-  tags = {
-    environment = azurerm_resource_group.resource_group.name
-  }
-}
-
-resource "azurerm_network_security_rule" "outgoing_public" {
-  name                        = "egress"
-  priority                    = 100
-  direction                   = "Outbound"
-  access                      = "Allow"
-  protocol                    = "*"
+  name                        = each.value.rulename
+  resource_group_name         = azurerm_resource_group.resource_group.name
+  network_security_group_name = azurerm_network_security_group.nsg[each.value.nsgname].name
+  priority                    = each.value.priority
+  direction                   = each.value.direction
+  access                      = each.value.access
+  protocol                    = each.value.protocol
   source_port_range           = "*"
   destination_port_range      = "*"
   source_address_prefix       = "*"
   destination_address_prefix  = "*"
-  resource_group_name         = azurerm_resource_group.resource_group.name
-  network_security_group_name = azurerm_network_security_group.publicnetworknsg.name
-}
 
-resource "azurerm_network_security_rule" "outgoing_private" {
-  name                        = "egress-private"
-  priority                    = 100
-  direction                   = "Outbound"
-  access                      = "Allow"
-  protocol                    = "*"
-  source_port_range           = "*"
-  destination_port_range      = "*"
-  source_address_prefix       = "*"
-  destination_address_prefix  = "*"
-  resource_group_name         = azurerm_resource_group.resource_group.name
-  network_security_group_name = azurerm_network_security_group.privatenetworknsg.name
 }

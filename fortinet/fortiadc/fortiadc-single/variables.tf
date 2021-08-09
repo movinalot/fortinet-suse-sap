@@ -47,8 +47,6 @@ variable "fadcoffer" {
   default = "fortinet-fortiadc"
 }
 
-// BYOL sku: fortinet_fg-vm
-// PAYG sku: fortinet_fg-vm_payg_20190624
 variable "fadcsku" {
   type = string
   default = "fad-vm-byol"
@@ -56,7 +54,7 @@ variable "fadcsku" {
 
 variable "fadcversion" {
   type    = string
-  default = "6.1.1"
+  default = "6.1.2"
 }
 
 variable "adminusername" {
@@ -64,12 +62,12 @@ variable "adminusername" {
   default = "azureadmin"
 }
 
-variable "adminpassword" {
+variable "" {
   type    = string
-  default = "123Password#@!"
+  default = ""
 }
 
 variable "license" {
   type    = string
-  default = "../fortinet/fortiadc-single/FGVM4VTM21000346.lic"
+  default = "../fortinet/fortiadc-single/FADV040000216450.lic"
 }
