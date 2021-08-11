@@ -16,9 +16,9 @@ variable "vnets" {
 
 variable "subnets" {
   type = map(object({
-    name   = string
-    vnet   = string
-    subnet = string
+    name      = string
+    vnet-name = string
+    subnet    = string
   }))
 }
 

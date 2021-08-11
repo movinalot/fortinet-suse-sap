@@ -5,54 +5,28 @@ variable "resource_group_location" {
   type = string
 }
 
-variable "size" {
-  type    = string
-  default = "Standard_F4s"
+variable "vm_size" {
+  type = string
 }
 
-// FortiGate License Type
-// Either byol or payg.
-variable "license_type" {
-  default = "byol"
+variable "vm_license" {
+  type = string
 }
 
-variable "publisher" {
-  type    = string
-  default = "fortinet"
+variable "vm_publisher" {
+  type = string
 }
 
-variable "fadcoffer" {
-  type    = string
-  default = "fortinet-fortiadc"
+variable "vm_offer" {
+  type = string
 }
 
-variable "fadcsku" {
-  type    = string
-  default = "fad-vm-byol"
+variable "vm_sku" {
+  type = string
 }
 
-variable "fadcversion" {
-  type    = string
-  default = "6.1.2"
-}
-
-variable "adminusername" {
-  type    = string
-  default = "azureuser"
-}
-
-variable "adminpassword" {
-  type    = string
-  default = "123Password#@!"
-}
-
-variable "licenseA" {
-  type    = string
-  default = "../fortinet/fortiadc-ha-ap/FADV040000216490.lic"
-}
-variable "licenseB" {
-  type    = string
-  default = "../fortinet/fortiadc-ha-ap/FADV040000216491.lic"
+variable "vm_version" {
+  type = string
 }
 
 variable "routetables" {
@@ -67,42 +41,28 @@ variable "nsg" {
   description = "Network Security Groups"
 }
 
-variable "fadc1" {
-  description = "Network Security Groups"
-}
-variable "fadc2" {
-  description = "Network Security Groups"
+variable "lb" {
+  description = "Load Balancers"
 }
 
-variable "fadc_vmsize" {
-  type    = string
-  default = "Standard_B4ms"
+variable "vm_bootdiagstorage" {
+  type = string
 }
-variable "fadc_PUBLISHER" {
-  type    = string
-  default = "fortinet"
+
+variable "vm_configs" {
+  description = "vm configurations"
 }
-variable "fadc_IMAGE_SKU" {
-  type    = string
-  default = "fad-vm-byol"
+
+variable "vm_nics" {
+  description = "vm nic configurations"
 }
-variable "fadc_VERSION" {
-  type    = string
-  default = "6.1.2"
+
+variable "vm_username" {
+  type        = string
+  description = "Username"
 }
-variable "fadc_OFFER" {
-  type    = string
-  default = "fortinet-fortiadc"
-}
-variable "vmbootdiagstorage" {
-  type    = string
-  default = "facserial"
-}
-variable "username" {
-  type    = string
-  default = ""
-}
-variable "password" {
-  type    = string
-  default = ""
+
+variable "vm_password" {
+  type        = string
+  description = "Password"
 }

@@ -1,0 +1,31 @@
+module "fortinet-fortigate-fortigate-ha-ap" {
+
+  source = "../fortinet/fortigate/fortigate-ha-ap"
+
+  resource_group_name     = azurerm_resource_group.resource_group.name
+  resource_group_location = azurerm_resource_group.resource_group.location
+  subnets                 = azurerm_subnet.subnets
+  nsg                     = azurerm_network_security_group.nsg
+
+  routetables = {
+  }
+
+  fgt_public_ips = {
+    "fgt_a_pub_ip" = { name = "fgt_a_pub_ip" },
+    "fgt_b_pub_ip" = { name = "fgt_b_pub_ip" },
+    "fgt_c_pub_ip" = { name = "fgt_c_pub_ip" }
+  }
+
+  fgt_a = {
+    "nic1" = {vmname="fgt_a", name="port1", subnet="security-dmz", ip="10.160.0.6"},
+    "nic2" = {vmname="fgt_a", name="port2", subnet="shared-services", ip="10.160.0.68"},
+    "nic3" = {vmname="fgt_a", name="port3", subnet="hasync", ip="10.160.0.76"},
+    "nic4" = {vmname="fgt_a", name="port4", subnet="mgmt", ip="10.160.0.84"},
+  }
+  fgt_b = {
+    "nic1" = {vmname="fgt_b", name="port1", subnet="security-dmz", ip="10.160.0.7"},
+    "nic2" = {vmname="fgt_b", name="port2", subnet="shared-services", ip="10.160.0.69"},
+    "nic3" = {vmname="fgt_b", name="port3", subnet="hasync", ip="10.160.0.77"},
+    "nic4" = {vmname="fgt_b", name="port4", subnet="mgmt", ip="10.160.0.85"},
+  }
+}

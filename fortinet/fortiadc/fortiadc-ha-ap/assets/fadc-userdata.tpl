@@ -46,11 +46,11 @@ set mode active-active-vrrp
 end
 config system traffic-group
   edit "traffic_group_1"
-    set failover-order ${fadc1_ha_nodeid} ${fadc2_ha_nodeid}
+    set failover-order ${fadc_a_ha_nodeid} ${fadc_b_ha_nodeid}
     set preempt enable
   next
   edit "traffic_group_2"
-    set failover-order ${fadc2_ha_nodeid} ${fadc1_ha_nodeid}
+    set failover-order ${fadc_b_ha_nodeid} ${fadc_a_ha_nodeid}
     set preempt enable
   next
 end

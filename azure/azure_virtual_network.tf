@@ -1,8 +1,8 @@
 resource "azurerm_virtual_network" "virtual_network" {
   for_each = var.vnets
 
-  name                = each.value["name"]
-  address_space       = [each.value["cidr"]]
+  name                = each.value.name
+  address_space       = [each.value.cidr]
   resource_group_name = azurerm_resource_group.resource_group.name
   location            = azurerm_resource_group.resource_group.location
 
@@ -11,13 +11,11 @@ resource "azurerm_virtual_network" "virtual_network" {
   }
 }
 
-resource "azurerm_subnet" "subnets" {
+resource "azurerm_subnet" "subnet" {
+  for_each = var.subnets
 
-  depends_on = [azurerm_virtual_network.virtual_network]
-
-  for_each             = var.subnets
-  name                 = each.value["name"]
-  address_prefixes     = [each.value["subnet"]]
+  name                 = each.value.name
+  address_prefixes     = [each.value.subnet]
+  virtual_network_name = azurerm_virtual_network.virtual_network[each.value.vnet].name
   resource_group_name  = azurerm_resource_group.resource_group.name
-  virtual_network_name = azurerm_virtual_network.virtual_network[each.value["vnet-name"]].name
 }

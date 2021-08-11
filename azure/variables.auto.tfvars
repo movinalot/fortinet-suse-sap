@@ -3,18 +3,39 @@
 region     = "eastus"
 group_name = "jmcdonough-sap"
 
-# VNET
 vnets = {
-  "hub-vnet" = { name = "hub-vnet", cidr = "10.160.0.0/24" }
+  "hub" = {
+    name = "hub",
+    cidr = "10.160.0.0/24"
+  }
 }
 
-# VNET subnets
 subnets = {
-  "security-dmz"    = { name = "security-dmz", vnet-name = "hub-vnet", subnet = "10.160.0.0/27" }
-  "waf"             = { name = "waf", vnet-name = "hub-vnet", subnet = "10.160.0.32/27" }
-  "shared-services" = { name = "shared-services", vnet-name = "hub-vnet", subnet = "10.160.0.64/29" }
-  "hasync"          = { name = "hasync", vnet-name = "hub-vnet", subnet = "10.160.0.72/29" }
-  "mgmt"            = { name = "mgmt", vnet-name = "hub-vnet", subnet = "10.160.0.80/29" }
+  "security-dmz" = {
+    name   = "security-dmz",
+    vnet   = "hub",
+    subnet = "10.160.0.0/27"
+  },
+  "web" = {
+    name   = "web",
+    vnet   = "hub",
+    subnet = "10.160.0.32/27"
+  }
+  "shared-services" = {
+    name   = "shared-services",
+    vnet   = "hub",
+    subnet = "10.160.0.64/27"
+  }
+  "hasync" = {
+    name   = "hasync",
+    vnet   = "hub",
+    subnet = "10.160.0.96/27"
+  }
+  "mgmt" = {
+    name   = "mgmt",
+    vnet   = "hub",
+    subnet = "10.160.0.128/27"
+  }
 }
 
 nsgs = {
@@ -23,9 +44,53 @@ nsgs = {
 }
 
 nsgrules = {
-  "PublicNetworkSecurityGroup"  = { nsgname = "PublicNetworkSecurityGroup", rulename = "TCP", priority = "1001", direction = "Inbound", access = "Allow", protocol = "Tcp" },
-  "PublicNetworkSecurityGroup"  = { nsgname = "PublicNetworkSecurityGroup", rulename = "egress", priority = "100", direction = "Outbound", access = "Allow", protocol = "*" },
-  "PrivateNetworkSecurityGroup" = { nsgname = "PrivateNetworkSecurityGroup", rulename = "All", priority = "1001", direction = "Inbound", access = "Allow", protocol = "*" },
-  "PrivateNetworkSecurityGroup" = { nsgname = "PrivateNetworkSecurityGroup", rulename = "egress-provate", priority = "100", direction = "Outbound", access = "Allow", protocol = "*" }
+  "PublicNetworkSecurityGroup" = {
+    nsgname                    = "PublicNetworkSecurityGroup",
+    rulename                   = "TCP",
+    priority                   = "1001",
+    direction                  = "Inbound",
+    access                     = "Allow",
+    protocol                   = "Tcp",
+    source_port_range          = "*",
+    destination_port_range     = "*",
+    source_address_prefix      = "*",
+    destination_address_prefix = "*"
+  },
+  "PublicNetworkSecurityGroup" = {
+    nsgname                    = "PublicNetworkSecurityGroup",
+    rulename                   = "egress",
+    priority                   = "100",
+    direction                  = "Outbound",
+    access                     = "Allow",
+    protocol                   = "*",
+    source_port_range          = "*",
+    destination_port_range     = "*",
+    source_address_prefix      = "*",
+    destination_address_prefix = "*"
+  },
+  "PrivateNetworkSecurityGroup" = {
+    nsgname                    = "PrivateNetworkSecurityGroup",
+    rulename                   = "All",
+    priority                   = "1001",
+    direction                  = "Inbound",
+    access                     = "Allow",
+    protocol                   = "*",
+    source_port_range          = "*",
+    destination_port_range     = "*",
+    source_address_prefix      = "*",
+    destination_address_prefix = "*"
+  },
+  "PrivateNetworkSecurityGroup" = {
+    nsgname                    = "PrivateNetworkSecurityGroup",
+    rulename                   = "egress-private",
+    priority                   = "100",
+    direction                  = "Outbound",
+    access                     = "Allow",
+    protocol                   = "*",
+    source_port_range          = "*",
+    destination_port_range     = "*",
+    source_address_prefix      = "*",
+    destination_address_prefix = "*"
+  }
 }
 
