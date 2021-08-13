@@ -1,5 +1,5 @@
 resource "azurerm_network_interface" "network_interface" {
-  for_each = var.network_interfaces
+  for_each = var.network_interface
 
   name                          = each.key
   resource_group_name           = each.value.resource_group_name

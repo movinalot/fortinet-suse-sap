@@ -1,31 +1,25 @@
-
-variable "group_name" {
-  type = string
-}
-
-variable "region" {
-  type = string
-}
-
-variable "vnets" {
-  type = map(object({
-    name = string
-    cidr = string
-  }))
-}
-
-variable "subnets" {
-  type = map(object({
-    name      = string
-    vnet-name = string
-    subnet    = string
-  }))
-}
-
 variable "nsgs" {
   description = "Network Security Groups"
 }
 
-variable "nsgrules" {
-  description = "Network Security Group Rules"
+variable "vm_configs" {
+  description = "vm configurations"
+}
+
+variable "fgt_public_ips" {
+  description = "vm configurations"
+}
+
+variable "routetables" {
+  description = "vm configurations"
+}
+
+variable "resource_group_name" {
+  type = string
+}
+variable "resource_group_location" {
+  type = string
+}
+variable "lb_probe" {
+  type = string
 }

@@ -69,11 +69,49 @@ module "fortinet-fortiadc-fortiadc-ha-ap" {
     }
   }
 
-  routetables = {
-    "fadc_pub_rt"    = { name = "fadc_pub_rt", subnet = "security-dmz" },
-    "fadc_priv_rt"   = { name = "fadc_priv_rt", subnet = "shared-services" },
-    "fadc_hasync_rt" = { name = "fadc_hasync_rt", subnet = "hasync" },
+  route_table = {
+    "fadc_pub_rt" = {
+      name                = "fadc_pub_rt",
+      location            = azurerm_resource_group.resource_group.location,
+      resource_group_name = azurerm_resource_group.resource_group.name
+    },
+    "fadc_priv_rt" = {
+      name                = "fadc_priv_rt",
+      location            = azurerm_resource_group.resource_group.location,
+      resource_group_name = azurerm_resource_group.resource_group.name
+    },
+    "fadc_hasync_rt" = {
+      name                = "fadc_hasync_rt",
+      location            = azurerm_resource_group.resource_group.location,
+      resource_group_name = azurerm_resource_group.resource_group.name
+    }
   }
+
+  subnet_route_table_association = {
+    "fadc_pub_rt" = {
+      name      = "fadc_pub_rt",
+      subnet_id = azurerm_subnet.subnet["security-dmz"].id
+    },
+    "fadc_priv_rt" = {
+      name      = "fadc_priv_rt",
+      subnet_id = azurerm_subnet.subnet["shared-services"].id
+    },
+    "fadc_hasync_rt" = {
+      name      = "fadc_hasync_rt",
+      subnet_id = azurerm_subnet.subnet["hasync"].id
+    }
+  }
+
+  route = {
+    default = {
+      name                = "default",
+      route_table_name    = "fadc_pub_rt",
+      resource_group_name = azurerm_resource_group.resource_group.name,
+      address_prefix      = "0.0.0.0/0",
+      next_hop_type       = "Internet"
+    }
+  }
+
 
   vm_size            = "Standard_F4s"
   vm_license         = "byol"
@@ -84,7 +122,7 @@ module "fortinet-fortiadc-fortiadc-ha-ap" {
   vm_bootdiagstorage = "facserial"
   vm_username        = ""
   vm_password        = ""
-  network_interfaces = {
+  network_interface = {
     "fadc_a_nic1" = { name = "port1", resource_group_name = azurerm_resource_group.resource_group.name, location = azurerm_resource_group.resource_group.location, enable_ip_forwarding = true, enable_accelerated_networking = false, ip_configuration_name = "ipconfig1", ip_configuration_subnet_id = azurerm_subnet.subnet["shared-services"].id, ip_configuration_private_allocation = "static", ip_configuration_private_ip_address = "10.160.0.70" },
     "fadc_a_nic2" = { name = "port2", resource_group_name = azurerm_resource_group.resource_group.name, location = azurerm_resource_group.resource_group.location, enable_ip_forwarding = true, enable_accelerated_networking = false, ip_configuration_name = "ipconfig1", ip_configuration_subnet_id = azurerm_subnet.subnet["web"].id, ip_configuration_private_allocation = "static", ip_configuration_private_ip_address = "10.160.0.36" },
     "fadc_a_nic3" = { name = "port3", resource_group_name = azurerm_resource_group.resource_group.name, location = azurerm_resource_group.resource_group.location, enable_ip_forwarding = true, enable_accelerated_networking = false, ip_configuration_name = "ipconfig1", ip_configuration_subnet_id = azurerm_subnet.subnet["hasync"].id, ip_configuration_private_allocation = "static", ip_configuration_private_ip_address = "10.160.0.102" },

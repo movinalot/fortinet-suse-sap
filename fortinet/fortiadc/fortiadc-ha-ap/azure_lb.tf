@@ -38,7 +38,7 @@ resource "azurerm_lb_rule" "lb_rule" {
   resource_group_name            = each.value.resource_group_name
   loadbalancer_id                = azurerm_lb.lb[each.value.loadbalancer_id].id
   protocol                       = each.value.protocol
-  frontend_port                  = each.value.frontend_port 
+  frontend_port                  = each.value.frontend_port
   backend_port                   = each.value.backend_port
   frontend_ip_configuration_name = each.value.frontend_ip_configuration_name
   probe_id                       = azurerm_lb_probe.lb_probe[each.value.probe_id].id

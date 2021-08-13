@@ -29,7 +29,7 @@ variable "vm_version" {
   type = string
 }
 
-variable "routetables" {
+variable "route_table" {
   description = "RouteTable Names"
 }
 
@@ -53,7 +53,7 @@ variable "vm_configs" {
   description = "vm configurations"
 }
 
-variable "network_interfaces" {
+variable "network_interface" {
   description = "network interface configurations"
 }
 
@@ -81,4 +81,12 @@ variable "lb_rule" {
 
 variable "network_interface_backend_address_pool_association" {
   description = "lb settings"
+}
+
+variable "subnet_route_table_association" {
+  description = "Subnet route table association"
+}
+
+variable "route" {
+  description = "Subnet route table association"
 }
