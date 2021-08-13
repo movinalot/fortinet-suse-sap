@@ -3,8 +3,8 @@ resource "azurerm_virtual_machine" "fadc" {
   name                         = each.value.name
   location                     = var.resource_group_location
   resource_group_name          = var.resource_group_name
-  network_interface_ids        = [for nic in each.value.network_interface_ids : azurerm_network_interface.fadc_nic[nic].id]
-  primary_network_interface_id = azurerm_network_interface.fadc_nic[each.value.primary_network_interface_id].id
+  network_interface_ids        = [for nic in each.value.network_interface_ids : azurerm_network_interface.network_interface[nic].id]
+  primary_network_interface_id = azurerm_network_interface.network_interface[each.value.primary_network_interface_id].id
   vm_size                      = var.vm_size
 
   identity {

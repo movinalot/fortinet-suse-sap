@@ -53,8 +53,8 @@ variable "vm_configs" {
   description = "vm configurations"
 }
 
-variable "vm_nics" {
-  description = "vm nic configurations"
+variable "network_interfaces" {
+  description = "network interface configurations"
 }
 
 variable "vm_username" {
@@ -65,4 +65,20 @@ variable "vm_username" {
 variable "vm_password" {
   type        = string
   description = "Password"
+}
+
+variable "lb_probe" {
+  description = "lb settings"
+}
+
+variable "lb_backend_address_pool" {
+  description = "lb settings"
+}
+
+variable "lb_rule" {
+  description = "lb settings"
+}
+
+variable "network_interface_backend_address_pool_association" {
+  description = "lb settings"
 }

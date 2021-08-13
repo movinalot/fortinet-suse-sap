@@ -3,6 +3,14 @@ variable "group_name" {
   type = string
 }
 
+variable "deploy_fadc" {
+  type = bool
+}
+
+variable "deploy_fgt" {
+  type = bool
+}
+
 variable "region" {
   type = string
 }

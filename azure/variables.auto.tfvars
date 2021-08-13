@@ -3,6 +3,9 @@
 region     = "eastus"
 group_name = "jmcdonough-sap"
 
+deploy_fadc = "true"
+deploy_fgt  = "false"
+
 vnets = {
   "hub" = {
     name = "hub",

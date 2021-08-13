@@ -3,52 +3,54 @@ resource "azurerm_lb" "lb" {
 
   name                = each.value.name
   sku                 = each.value.sku
-  resource_group_name = var.resource_group_name
-  location            = var.resource_group_location
+  resource_group_name = each.value.resource_group_name
+  location            = each.value.location
 
   frontend_ip_configuration {
-    name                       = each.value.feip
-    subnet_id                  = var.subnets[each.value.feip_subnet].id
-    private_ip_address_version = each.value.ip_version
+    name                       = each.value.frontend_ip_configuration_name
+    subnet_id                  = each.value.frontend_ip_configuration_subnet_id
+    private_ip_address_version = each.value.frontend_ip_configuration_private_ip_address_version
   }
 }
 
 resource "azurerm_lb_backend_address_pool" "lb_backend_address_pool" {
-  name            = "fadc-lb-be-pool"
-  loadbalancer_id = azurerm_lb.lb["fadc_lb"].id
+  for_each = var.lb_backend_address_pool
+
+  name            = each.value.name
+  loadbalancer_id = azurerm_lb.lb[each.value.loadbalancer_id].id
 }
 
 resource "azurerm_lb_probe" "lb_probe" {
-  name                = "fadc-lbpool-probe"
-  resource_group_name = var.resource_group_name
-  loadbalancer_id     = azurerm_lb.lb["fadc_lb"].id
-  port                = "443"
-  protocol            = "Tcp"
-  interval_in_seconds = "5"
+  for_each = var.lb_probe
+
+  name                = each.value.name
+  resource_group_name = each.value.resource_group_name
+  loadbalancer_id     = azurerm_lb.lb[each.value.loadbalancer_id].id
+  port                = each.value.port
+  protocol            = each.value.protocol
+  interval_in_seconds = each.value.interval_in_seconds
 }
 
 resource "azurerm_lb_rule" "lb_rule" {
-  name                           = "fadc-lbrule"
-  resource_group_name            = var.resource_group_name
-  loadbalancer_id                = azurerm_lb.lb["fadc_lb"].id
-  protocol                       = "Tcp"
-  frontend_port                  = 443
-  backend_port                   = 443
-  frontend_ip_configuration_name = "fadc-lb-feip"
-  probe_id                       = azurerm_lb_probe.lb_probe.id
-  backend_address_pool_id        = azurerm_lb_backend_address_pool.lb_backend_address_pool.id
-  enable_floating_ip             = false
-  disable_outbound_snat          = true
+  for_each = var.lb_rule
+
+  name                           = each.value.name
+  resource_group_name            = each.value.resource_group_name
+  loadbalancer_id                = azurerm_lb.lb[each.value.loadbalancer_id].id
+  protocol                       = each.value.protocol
+  frontend_port                  = each.value.frontend_port 
+  backend_port                   = each.value.backend_port
+  frontend_ip_configuration_name = each.value.frontend_ip_configuration_name
+  probe_id                       = azurerm_lb_probe.lb_probe[each.value.probe_id].id
+  backend_address_pool_id        = azurerm_lb_backend_address_pool.lb_backend_address_pool[each.value.backend_address_pool_id].id
+  enable_floating_ip             = each.value.enable_floating_ip
+  disable_outbound_snat          = each.value.disable_outbound_snat
 }
 
-resource "azurerm_network_interface_backend_address_pool_association" "lb_backend_assoc_fadc_a" {
-  network_interface_id    = azurerm_network_interface.fadc_nic["fadc_a_nic1"].id
-  ip_configuration_name   = "ipconfig1"
-  backend_address_pool_id = azurerm_lb_backend_address_pool.lb_backend_address_pool.id
-}
+resource "azurerm_network_interface_backend_address_pool_association" "network_interface_backend_address_pool_association" {
+  for_each = var.network_interface_backend_address_pool_association
 
-resource "azurerm_network_interface_backend_address_pool_association" "lb_backend_assoc_fadc_b" {
-  network_interface_id    = azurerm_network_interface.fadc_nic["fadc_b_nic1"].id
-  ip_configuration_name   = "ipconfig1"
-  backend_address_pool_id = azurerm_lb_backend_address_pool.lb_backend_address_pool.id
+  network_interface_id    = azurerm_network_interface.network_interface[each.value.network_interface_id].id
+  ip_configuration_name   = each.value.ip_configuration_name
+  backend_address_pool_id = azurerm_lb_backend_address_pool.lb_backend_address_pool[each.value.backend_address_pool_id].id
 }
