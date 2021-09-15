@@ -53,10 +53,10 @@ resource "azurerm_virtual_machine" "fadc" {
 }
 data "template_file" "fadc_customdata" {
   for_each = var.vm_configs
-  template = file("../fortinet/fortiadc/fortiadc-ha-ap/assets/fadc-userdata.tpl")
+  template = file("${path.module}/assets/fadc-userdata.tpl")
   vars = {
     fadc_id           = each.value.name
-    fadc_license_file = "../fortinet/fortiadc/fortiadc-ha-ap/${each.value.fadc_license_file}"
+    fadc_license_file = "${path.module}/${each.value.fadc_license_file}"
     fadc_config_ha    = true
 
     fadc_ha_localip  = each.value.fadc_ha_localip

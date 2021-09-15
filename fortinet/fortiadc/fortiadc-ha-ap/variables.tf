@@ -33,6 +33,10 @@ variable "route_table" {
   description = "RouteTable Names"
 }
 
+variable "storage_account" {
+  description = "Storage Account Names"
+}
+
 variable "subnets" {
   description = "Subnets"
 }

@@ -87,6 +87,14 @@ module "fortinet-fortiadc-fortiadc-ha-ap" {
     }
   }
 
+
+  storage_account = {
+    "fadc_storage_account" = {
+      name                     = "jmcdfadcstorage",
+      account_tier             = "Standard"
+      account_replication_type = "LRS"
+    }
+  }
   subnet_route_table_association = {
     "fadc_pub_rt" = {
       name      = "fadc_pub_rt",
@@ -120,8 +128,8 @@ module "fortinet-fortiadc-fortiadc-ha-ap" {
   vm_sku             = "fad-vm-byol"
   vm_version         = "6.1.3"
   vm_bootdiagstorage = "facserial"
-  vm_username        = ""
-  vm_password        = ""
+  vm_username        = "azureuser"
+  vm_password        = "password"
   network_interface = {
     "fadc_a_nic1" = { name = "port1", resource_group_name = azurerm_resource_group.resource_group.name, location = azurerm_resource_group.resource_group.location, enable_ip_forwarding = true, enable_accelerated_networking = false, ip_configuration_name = "ipconfig1", ip_configuration_subnet_id = azurerm_subnet.subnet["shared-services"].id, ip_configuration_private_allocation = "static", ip_configuration_private_ip_address = "10.160.0.70" },
     "fadc_a_nic2" = { name = "port2", resource_group_name = azurerm_resource_group.resource_group.name, location = azurerm_resource_group.resource_group.location, enable_ip_forwarding = true, enable_accelerated_networking = false, ip_configuration_name = "ipconfig1", ip_configuration_subnet_id = azurerm_subnet.subnet["web"].id, ip_configuration_private_allocation = "static", ip_configuration_private_ip_address = "10.160.0.36" },
