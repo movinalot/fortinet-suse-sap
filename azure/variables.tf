@@ -1,8 +1,9 @@
-
 variable "group_name" {
   type = string
 }
-
+variable "region" {
+  type = string
+}
 variable "deploy_fadc" {
   type = bool
 }
@@ -11,9 +12,7 @@ variable "deploy_fgt" {
   type = bool
 }
 
-variable "region" {
-  type = string
-}
+
 
 variable "vnets" {
   type = map(object({
@@ -30,10 +29,18 @@ variable "subnets" {
   }))
 }
 
-variable "nsgs" {
-  description = "Network Security Groups"
+variable "storage_account" {
+  description = "Storage Account Names"
 }
 
-variable "nsgrules" {
-  description = "Network Security Group Rules"
+variable "routes" {
+  description = "Routes"
+}
+
+variable "route_tables" {
+  description = "Route Tables"
+}
+
+variable "subnet_route_table_associations" {
+  description = "Route Table Associations"
 }

@@ -7,6 +7,11 @@ resource "azurerm_virtual_machine" "fadc" {
   primary_network_interface_id = azurerm_network_interface.network_interface[each.value.primary_network_interface_id].id
   vm_size                      = var.vm_size
 
+  boot_diagnostics {
+    enabled     = true
+    storage_uri = var.fadc_storage_account.primary_blob_endpoint
+  }
+
   identity {
     type = each.value.identity
   }
@@ -51,9 +56,10 @@ resource "azurerm_virtual_machine" "fadc" {
 
   zones = [each.value.zone]
 }
+
 data "template_file" "fadc_customdata" {
   for_each = var.vm_configs
-  template = file("${path.module}/assets/fadc-userdata.tpl")
+  template = file("${path.module}/${each.value.config_template}")
   vars = {
     fadc_id           = each.value.name
     fadc_license_file = "${path.module}/${each.value.fadc_license_file}"

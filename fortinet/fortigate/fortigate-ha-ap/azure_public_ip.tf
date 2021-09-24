@@ -1,20 +1,9 @@
-resource "azurerm_public_ip" "ClusterPublicIP" {
-  name                = "ClusterPublicIP"
-  resource_group_name     = azurerm_resource_group.resource_group.name
-  resource_group_location = azurerm_resource_group.resource_group.location
-  allocation_method   = "Static"
-}
+resource "azurerm_public_ip" "public_ip" {
+  for_each = var.fgt_public_ips
 
-resource "azurerm_public_ip" "ActiveMGMTIP" {
-  name                = "ActiveMGMTIP"
-  resource_group_name     = azurerm_resource_group.resource_group.name
-  resource_group_location = azurerm_resource_group.resource_group.location
-  allocation_method   = "Static"
-}
-
-resource "azurerm_public_ip" "PassiveMGMTIP" {
-  name                = "PassiveMGMTIP"
-  resource_group_name     = azurerm_resource_group.resource_group.name
-  resource_group_location = azurerm_resource_group.resource_group.location
-  allocation_method   = "Static"
+  name                = each.value.name
+  resource_group_name = var.resource_group_name
+  location            = var.resource_group_location
+  allocation_method   = each.value.allocation_method
+  sku                 = each.value.sku
 }

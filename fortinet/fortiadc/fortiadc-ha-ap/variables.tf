@@ -29,20 +29,16 @@ variable "vm_version" {
   type = string
 }
 
-variable "route_table" {
+variable "route_tables" {
   description = "RouteTable Names"
 }
 
-variable "storage_account" {
-  description = "Storage Account Names"
+variable "fadc_storage_account" {
+  description = "Storage Account"
 }
 
 variable "subnets" {
   description = "Subnets"
-}
-
-variable "nsg" {
-  description = "Network Security Groups"
 }
 
 variable "lb" {
@@ -57,7 +53,7 @@ variable "vm_configs" {
   description = "vm configurations"
 }
 
-variable "network_interface" {
+variable "network_interfaces" {
   description = "network interface configurations"
 }
 
@@ -87,10 +83,10 @@ variable "network_interface_backend_address_pool_association" {
   description = "lb settings"
 }
 
-variable "subnet_route_table_association" {
+variable "subnet_route_table_associations" {
   description = "Subnet route table association"
 }
 
-variable "route" {
+variable "routes" {
   description = "Subnet route table association"
 }
